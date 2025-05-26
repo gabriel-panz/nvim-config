@@ -15,6 +15,8 @@ vim.keymap.set("v", "<leader>y", '"+y', { desc = "copy to clipboard" })
 vim.keymap.set("v", "<leader>p", '"+p', { desc = "paste from clipboard" })
 vim.keymap.set("n", "<leader>tf", "<Cmd>NvimTreeFindFile<CR>", { desc = "Find current buffer in NvimTree" })
 
+vim.keymap.set("n", "<leader>tt", "<Cmd>NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
+
 vim.keymap.set(
 	"n",
 	"<leader>wt",
