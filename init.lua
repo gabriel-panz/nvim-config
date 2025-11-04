@@ -150,6 +150,17 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
+		-- {
+		-- 	"OmniSharp/omnisharp-vim",
+		-- 	---@module 'lspconfig.configs.omnisharp'
+		-- },
+		-- {
+		-- 	"seblyng/roslyn.nvim",
+		-- 	---@module 'roslyn.config'
+		-- 	---@type RoslynNvimConfig
+		-- 	ft = { "cs" },
+		-- 	opts = {},
+		-- },
 		{
 			"numToStr/Comment.nvim",
 			opts = {
@@ -241,7 +252,7 @@ require("lazy").setup({
 	-- Then, because we use the `opts` key (recommended), the configuration runs
 	-- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-	{                   -- Useful plugin to show you pending keybinds.
+	{ -- Useful plugin to show you pending keybinds.
 		"folke/which-key.nvim",
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		opts = {
@@ -287,7 +298,7 @@ require("lazy").setup({
 
 			-- Document existing key chains
 			spec = {
-				{ "<leader>c", group = "[C]ode",     mode = { "n", "x" } },
+				{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
 				{ "<leader>d", group = "[D]ocument" },
 				{ "<leader>r", group = "[R]ename" },
 				{ "<leader>s", group = "[S]earch" },
@@ -327,7 +338,7 @@ require("lazy").setup({
 			{ "nvim-telescope/telescope-ui-select.nvim" },
 
 			-- Useful for getting pretty icons, but requires a Nerd Font.
-			{ "nvim-tree/nvim-web-devicons",            enabled = vim.g.have_nerd_font },
+			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 		},
 		config = function()
 			-- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -437,12 +448,20 @@ require("lazy").setup({
 			-- Automatically install LSPs and related tools to stdpath for Neovim
 			-- Mason must be loaded before its dependents so we need to set it up here.
 			-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-			{ "williamboman/mason.nvim", opts = {} },
+			{
+				"williamboman/mason.nvim",
+				opts = {
+					registries = {
+						"github:mason-org/mason-registry",
+						"github:Crashdummyy/mason-registry",
+					},
+				},
+			},
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			-- Useful status updates for LSP.
-			{ "j-hui/fidget.nvim",       opts = {} },
+			{ "j-hui/fidget.nvim", opts = {} },
 
 			-- Allows extra capabilities provided by nvim-cmp
 			"hrsh7th/cmp-nvim-lsp",
@@ -551,15 +570,15 @@ require("lazy").setup({
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if
-							client
-							and client_supports_method(
-								client,
-								vim.lsp.protocol.Methods.textDocument_documentHighlight,
-								event.buf
-							)
+						client
+						and client_supports_method(
+							client,
+							vim.lsp.protocol.Methods.textDocument_documentHighlight,
+							event.buf
+						)
 					then
 						local highlight_augroup =
-								vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = event.buf,
 							group = highlight_augroup,
@@ -586,8 +605,8 @@ require("lazy").setup({
 					--
 					-- This may be unwanted, since they displace some of your code
 					if
-							client
-							and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
+						client
+						and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
 					then
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
@@ -642,6 +661,9 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
+				csharp_ls = {
+					filetypes = { "cs" },
+				},
 				-- clangd = {},
 				-- gopls = {},
 				-- pyright = {},
@@ -654,9 +676,6 @@ require("lazy").setup({
 				-- But for many setups, the LSP (`ts_ls`) will work just fine
 				-- ts_ls = {},
 				--
-				ast_grep = {
-					filetypes = { "cshtml" },
-				},
 				lua_ls = {
 					-- cmd = { ... },
 					-- filetypes = { ... },
@@ -743,7 +762,7 @@ require("lazy").setup({
 			end,
 			formatters_by_ft = {
 				lua = { "stylua" },
-				csharp = { "csharpier" },
+				-- csharp = { "csharpier" },
 				mcfunction = { "spyglassmc-language-server" },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
@@ -1031,6 +1050,11 @@ require("lazy").setup({
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
+vim.filetype.add({
+	extension = {
+		swcrc = "json",
+	},
+})
 require("keybinds")
 require("plugins")
 require("Comment").setup()

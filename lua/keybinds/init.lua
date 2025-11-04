@@ -25,3 +25,7 @@ vim.keymap.set(
 )
 
 vim.keymap.set("v", "<leader>t", "<Cmd>norm 0i	<CR>", { desc = "Add a tab" })
+
+-- Git
+vim.keymap.set("n", "<leader>gb", "<Cmd>Gitsigns blame<CR>", { desc = "[G]it [B]lame file" })
+vim.keymap.set("n", "<leader>gl", "<Cmd>Gitsigns blame_line<CR>", { desc = "[G]it [B]lame line" })
