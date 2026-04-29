@@ -25,7 +25,6 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-	--vim.opt.clipboard = "unnamed"
 	vim.g.clipboard = {
 		name = "OSC 52",
 		copy = {
@@ -971,8 +970,6 @@ require("lazy").setup({
 				"html",
 				"lua",
 				"luadoc",
-				"markdown",
-				"markdown_inline",
 				"query",
 				"vim",
 				"vimdoc",
