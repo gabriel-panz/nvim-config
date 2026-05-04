@@ -149,6 +149,29 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
+		"winter-again/annotate.nvim",
+		dependencies = { "kkharji/sqlite.lua" },
+		config = function()
+			require("annotate").setup({
+				-- path for the sqlite db file
+				db_uri = vim.fn.stdpath("data") .. "/annotations_db",
+				-- sign column symbol to use
+				annot_sign = "󰍕",
+				-- highlight group for symbol
+				annot_sign_hl = "Comment",
+				-- highlight group for currently active annotation
+				annot_sign_hl_current = "FloatBorder",
+				-- width of floating annotation window
+				annot_win_width = 25,
+				-- padding to the right of the floating annotation window
+				annot_win_padding = 2,
+			})
+		end,
+	},
+	{
+		"sindrets/diffview.nvim",
+	},
+	{
 		-- {
 		-- 	"OmniSharp/omnisharp-vim",
 		-- 	---@module 'lspconfig.configs.omnisharp'
@@ -224,6 +247,9 @@ require("lazy").setup({
 	-- options to `gitsigns.nvim`.
 	--
 	-- See `:help gitsigns` to understand what the configuration keys do
+	{
+		"tpope/vim-fugitive",
+	},
 	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -747,7 +773,7 @@ require("lazy").setup({
 				-- Disable "format_on_save lsp_fallback" for languages that don't
 				-- have a well standardized coding style. You can add additional
 				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = { c = true, cpp = true, cshtml = true, html = true }
+				local disable_filetypes = { ts = true, js = true, c = true, cpp = true, cshtml = true, html = true }
 				local lsp_format_opt
 				if disable_filetypes[vim.bo[bufnr].filetype] then
 					lsp_format_opt = "never"
@@ -767,7 +793,7 @@ require("lazy").setup({
 				-- python = { "isort", "black" },
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascript = { "prettierd", stop_after_first = true },
 			},
 		},
 	},
@@ -1004,7 +1030,7 @@ require("lazy").setup({
 	--
 	-- require 'kickstart.plugins.debug',
 	-- require 'kickstart.plugins.indent_line',
-	-- require 'kickstart.plugins.lint',
+	require("plugins.lint"),
 	-- require 'kickstart.plugins.autopairs',
 	-- require 'kickstart.plugins.neo-tree',
 	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
