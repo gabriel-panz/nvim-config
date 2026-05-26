@@ -10,7 +10,6 @@ return {
 		lint.linters_by_ft = {
 			typescript = { "eslint" },
 			javascript = { "eslint" },
-			markdown = { "markdownlint" }, -- Make sure to install `markdownlint` via mason / npm
 		}
 
 		-- To allow other plugins to add linters to require('lint').linters_by_ft,
